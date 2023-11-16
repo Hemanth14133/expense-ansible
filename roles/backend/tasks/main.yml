@@ -19,21 +19,11 @@
 - name: Add application user
   ansible.builtin.user:
     name: expense
-- name: Clean Up old content
-  ansible.builtin.file:
-    path: /app
-    state: absent
 
-- name: Create App Directory
-  ansible.builtin.file:
-    path: /app
-    state: directory
-
-- name: Download backend code and Extract it
-  ansible.builtin.unarchive:
-    src: https://expense-artifacts.s3.amazonaws.com/backend.zip
-    dest: /app
-    remote_src: yes
+- name: Include App Pre-requisites
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app_prereq
 
 - name: Install NodeJS Dependencies
   ansible.builtin.shell: npm install
